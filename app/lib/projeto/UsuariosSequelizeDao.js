@@ -1,4 +1,5 @@
 const Usuario = require("./Usuario")
+
 const bcrypt = require('bcrypt')
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
@@ -6,11 +7,16 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 class UsuariosSequelizeDao {
     constructor(sequelize) {
         this.sequelize = sequelize;
-
         this.Usuario = Usuario.init({
             nome: DataTypes.TEXT,
             senha: DataTypes.TEXT,
-            papel: DataTypes.TEXT,
+            papel_id : {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Papeis',
+                    key: 'id'
+                }
+            },
             id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
@@ -35,16 +41,15 @@ class UsuariosSequelizeDao {
         return this.Usuario.findAll();
     }
 
-    inserir(evento) {
-        this.validar(evento);
-        evento.senha = bcrypt.hashSync(evento.senha, 10);
-        
-        return evento.save();
+    inserir(usuario) {
+        this.validar(usuario);
+        usuario.senha = bcrypt.hashSync(usuario.senha, 10);    
+        return usuario.save();
     }
 
-    async alterar(id, evento) {
-        this.validar(evento);
-        let obj = {...evento.dataValues};
+    async alterar(id, usuario) {
+        this.validar(usuario);
+        let obj = {...usuario.dataValues};
         Object.keys(obj).forEach(key => {
             if (obj[key] === null || obj[key] === undefined) {
                 delete obj[key];
@@ -60,23 +65,23 @@ class UsuariosSequelizeDao {
         
     }
 
-    validar(evento) {
-        if (!evento.nome) {
+    validar(usuario) {
+        if (!usuario.nome) {
             throw new Error('mensagem_nome_em_branco');
         }
-        if (!evento.senha) {
+        if (!usuario.senha) {
             throw new Error('mensagem_senha_em_branco');
         }
     }
 
     async autenticar(nome, senha) {
-        let evento = await this.Usuario.findOne({where: {nome}});
-        if (bcrypt.compareSync(senha, evento.senha)) {
-            return evento;
+        let usuario = await this.Usuario.findOne({where: {nome}});
+        if (bcrypt.compareSync(senha, usuario.senha)) {
+            return usuario;
         } else {
             return null; 
         }   
-        // return evento;
+        // return usuario;
     }
 }
 

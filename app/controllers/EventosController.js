@@ -15,6 +15,13 @@ class EventosController {
             res.render('eventos', {eventos: eventos});        
         });
 
+        rotas.get('/admin', async (req, res) => {
+            this.listar(req, res);
+            console.log(req.headers);
+            let eventos = await this.listar(req,res);
+            res.render('adminEventos', {eventos: eventos});        
+        });
+
         rotas.get('/:id', async (req, res) => {
             let evento = await Evento.findOne({
                 raw: true,
@@ -79,7 +86,6 @@ class EventosController {
 
     async listar(req, res) {
         let eventos = await this.eventosDao.listar();
-        console.log(eventos);
         let dados = eventos.map(evento => {
             return {
                 ...evento.dataValues

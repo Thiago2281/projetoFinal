@@ -80,7 +80,7 @@ class UsuariosController {
             usuario.id = await this.usuariosDao.inserir(usuario);
             this.listar(req, res);
             let usuarios = await this.listar(req,res);
-            res.render('usuarios', {usuarios: usuarios});
+            // res.render('usuarios', {usuarios: usuarios});
         } catch (e) {
             console.log("erro inserir", e)
             res.status(400).json({

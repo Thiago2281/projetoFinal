@@ -10,17 +10,16 @@ class AuthController {
         res.render('login');
     }
 
-    async logar(req, res) {
+    async logar(req, res) {   
         let usuario = await this.usuariosDao.autenticar(req.body.nome, req.body.senha);
         if (usuario) {
-            console.log({usuario});
             let token = jwt.sign({
                 ...usuario.toJSON()
             }, this.SEGREDO_JWT);
-            res.json({
-                token,
-                mensagem: 'Usuário logado com sucesso!'
-            });
+            // res.redirect(200, `eventos/login`);
+            // res.json(token);
+            res.cookie('jwt', token);
+            return (token)
         }
         else {
             res.json({
@@ -31,24 +30,24 @@ class AuthController {
 
     // middleware
     autorizar(req, res, proximoControlador, papeisPermitidos) {
-        console.log('autorizando', req.headers);
+        ('autorizando', req.headers);
         try {
             let token = req.headers.authorization.split(' ')[1];
             let usuario = jwt.verify(token, this.SEGREDO_JWT);
             req.usuario = usuario;
-            console.log({usuario}, papeisPermitidos);
+            ({usuario}, papeisPermitidos);
 
             if (papeisPermitidos.includes(usuario.papel) || papeisPermitidos.length == 0) {
                 proximoControlador();
             }
             else {
-                utils.renderizarJSON(res, {
+                res.json({
                     mensagem: 'Não autorizado!'
                 }, 403);
             }
 
         } catch (e) {
-            utils.renderizarJSON(res, {
+            res.json({
                 mensagem: 'Não autenticado!',
                 error: e.message
             }, 401);

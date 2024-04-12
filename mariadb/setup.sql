@@ -1,4 +1,4 @@
-CREATE TABLE papeis (
+CREATE TABLE Papeis (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45)
 );

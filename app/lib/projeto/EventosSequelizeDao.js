@@ -6,7 +6,6 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 class EventosSequelizeDao {
     constructor(sequelize) {
         this.sequelize = sequelize;
-
         this.Evento = Evento.init({
             nome: DataTypes.TEXT,
             lado: DataTypes.FLOAT,
@@ -35,16 +34,15 @@ class EventosSequelizeDao {
         return this.Evento.findAll();
     }
 
-    inserir(usuario) {
-        this.validar(usuario);
-        usuario.senha = bcrypt.hashSync(usuario.senha, 10);
-        
-        return usuario.save();
+    inserir(evento) {
+        this.validar(evento);
+        // evento.senha = bcrypt.hashSync(evento.senha, 10);
+        return evento.save();
     }
 
-    async alterar(id, usuario) {
-        this.validar(usuario);
-        let obj = {...usuario.dataValues};
+    async alterar(id, evento) {
+        this.validar(evento);
+        let obj = {...evento.dataValues};
         Object.keys(obj).forEach(key => {
             if (obj[key] === null || obj[key] === undefined) {
                 delete obj[key];
@@ -60,24 +58,24 @@ class EventosSequelizeDao {
         
     }
 
-    validar(usuario) {
-        if (!usuario.nome) {
+    validar(evento) {
+        if (!evento.nome) {
             throw new Error('mensagem_nome_em_branco');
         }
-        if (!usuario.senha) {
-            throw new Error('mensagem_senha_em_branco');
+        if (!evento.lado) {
+            throw new Error('mensagem_lado_em_branco');
         }
     }
 
-    async autenticar(nome, senha) {
-        let usuario = await this.Evento.findOne({where: {nome}});
-        if (bcrypt.compareSync(senha, usuario.senha)) {
-            return usuario;
-        } else {
-            return null; 
-        }   
-        // return usuario;
-    }
+    // async autenticar(nome, senha) {
+    //     let evento = await this.Evento.findOne({where: {nome}});
+    //     if (bcrypt.compareSync(senha, evento.senha)) {
+    //         return evento;
+    //     } else {
+    //         return null; 
+    //     }   
+    //     // return evento;
+    // }
 }
 
 module.exports = EventosSequelizeDao;
