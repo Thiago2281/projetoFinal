@@ -69,7 +69,7 @@ app.use(express.json());
 /* usar arquivos ejs como renderização */
 app.set('view engine', 'ejs');
 
-app.use('/usuarios', usuariosController.getRouter());
+app.use('/usuarios', passport.authenticate('jwt', { session: false }), usuariosController.getRouter());
 
 app.use('/eventos', eventosController.getRouter());
 

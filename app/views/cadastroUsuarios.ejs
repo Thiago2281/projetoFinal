@@ -33,12 +33,12 @@
                         </span>
                         <input type="text" name="senha" id="senha" class="form-control" placeholder="Senha do usuario" value="<%- usuario.senha %>" required/>
                     </div>
-                    <label for="papel" class="form-label">Papel:</label>
+                    <label for="papel" class="form-label">Papel (1 para admin, 2 para geral):</label>
                     <div class="input-group mb-4">
                         <span class="input-group-text">
                             <i class="bi bi-envelope-fill text-secondary"></i>
                         </span>
-                        <input type="text" name="papel" id="papel" class="form-control" placeholder="Papel do usuario" value="<%- usuario.papel %>" required/>
+                        <input type="number" name="papel" id="papel" class="form-control" placeholder="Papel do usuario" value="<%- usuario.papel %>" required/>
                     </div>
 
 

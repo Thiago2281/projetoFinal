@@ -1,6 +1,7 @@
 const Evento = require('./../lib/projeto/Evento');
 const express = require('express');
 const { Sequelize, DataTypes, Model } = require('sequelize');
+const passport = require('passport');
 
 class EventosController {
     constructor(eventosDao) {
@@ -15,7 +16,7 @@ class EventosController {
             res.render('eventos', {eventos: eventos});        
         });
 
-        rotas.get('/admin', async (req, res) => {
+        rotas.get('/admin', passport.authenticate('jwt', { session: false }), async (req, res) => {
             this.listar(req, res);
             console.log(req.headers);
             let eventos = await this.listar(req,res);
