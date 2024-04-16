@@ -13,14 +13,21 @@ class EventosController {
         rotas.get('/', async (req, res) => {
             this.listar(req, res);
             let eventos = await this.listar(req,res);
-            res.render('eventos', {eventos: eventos});        
+            if (req.headers.accept === 'application/json') {
+                res.json(eventos);
+            } else {
+                res.render('eventos', {eventos: eventos});
+            } 
+
         });
 
         rotas.get('/admin', passport.authenticate('jwt', { session: false }), async (req, res) => {
             this.listar(req, res);
             console.log(req.headers);
             let eventos = await this.listar(req,res);
-            res.render('adminEventos', {eventos: eventos});        
+            
+            // res.render('adminEventos', {eventos: eventos});       
+            res.render('adminVue') 
         });
 
         rotas.get('/:id', async (req, res) => {

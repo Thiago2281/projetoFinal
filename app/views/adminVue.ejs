@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro</title>
+  <%- include('../views/head'); %>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+</head>
+
+<body id="app">
+  <%- include('../views/nav'); %>
+    <section class="bg-light pt-4" id="app">
+      <div class="container-lg">
+        <div class="text-center">
+          <h2>Área de Administração</h2>
+        </div>
+      </div>
+    </section>
+    <nav>
+      <router-link to="/" button class="btn btn-dark">Início</router-link>
+      <router-link to="/admin/usuarios" button class="btn btn-dark">Admin usuarios</router-link>
+    </nav>
+    <main>
+      <router-view @refresh="refresh()"/>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+      </script>
+    <footer>
+      <%- include('../views/footer'); %>
+    </footer>
+</body>
+
+</html>
+<script type="module">
+  import CrudUsuarios from '/_js/CrudUsuarios.js'
+  import CardUsuarios from '/_js/CardUsuarios.js'
+  import ExibUsuarios from '/_js/ExibUsuarios.js'
+  import ListUsuarios from '/_js/ListUsuarios.js'
+  import Detalhes from '/_js/Detalhes.js'
+
+  let usuarios = Vue.ref([]);
+  async function refresh(){
+    usuarios.value = await listar()
+  }
+  refresh()
+  const routes = [
+    {
+      path: '/', component: ListUsuarios, props: {
+        usuarios
+      }
+    },
+    {
+      path: '/admin/usuarios', component: CrudUsuarios, props: {
+        usuarios
+      }
+    },
+    {
+      path: '/detalhes/:id', component: Detalhes, props: {
+        usuarios
+      }
+    },
+  ]
+  const router = VueRouter.createRouter({
+    history: VueRouter.createMemoryHistory(),
+    routes,
+  });
+
+  Vue.createApp({
+    setup() {
+      const lista = Vue.ref([]);
+      const nome = Vue.ref(null);
+      const usuarioExibido = Vue.ref({});
+      function seleciona(usuario) {
+        alert(usuario);
+      }
+      function exibe(usuario) {
+        usuarioExibido.value = usuario;
+      }
+      return {
+        lista,
+        nome,
+        usuarioExibido,
+        seleciona,
+        exibe,
+        refresh
+      }
+    }
+  }).use(router).mount('#app')
+</script>
+<script src="/_js/UsuariosStoreAPI.js"></script>
