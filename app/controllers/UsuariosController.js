@@ -29,26 +29,8 @@ class UsuariosController {
          
         })
 
-        rotas.get('/edicao', async (req, res) => {
-            this.listar(req, res);
-            let usuarios = await this.listar(req,res);
-            res.render('edicaoUsuarios',{usuarios:usuarios})
-        })
-
-        rotas.get('/cadastro/:id', async (req, res) => {
-            let id = req.params.id;
-            let usuario = await this.getUser(id);
-            res.render('cadastroUsuarios',{usuario:usuario})
-        })
-
         rotas.put('/cadastro/:id', (req, res) => {
             this.alterar(req, res);
-        })
-
-        rotas.get('/exclusao', async (req, res) => {
-            this.listar(req, res);
-            let usuarios = await this.listar(req,res);
-            res.render('exclusaoUsuarios',{usuarios:usuarios})
         })
 
         return rotas;
@@ -80,14 +62,11 @@ class UsuariosController {
             let usuario = await this.getUsuarioDaRequisicao(req);
             usuario.id = await this.usuariosDao.inserir(usuario);
             this.listar(req, res);
-            // let usuarios = await this.listar(req,res);
             if (req.headers.accept === 'application/json') {
                 res.json(usuario.id);
             } else {
                 res.render('usuarios', {usuarios: usuarios});
             } 
-
-            // res.render('usuarios', {usuarios: usuarios});
         } catch (e) {
             console.log("erro inserir", e)
             res.status(400).json({
@@ -124,7 +103,7 @@ class UsuariosController {
         let usuario = Usuario.build({
             nome: corpo.nome,
             senha: corpo.senha,
-            papel_id: corpo.papel
+            papel_id: corpo.papel_id
         });
         return usuario;
     }

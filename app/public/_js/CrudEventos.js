@@ -1,36 +1,36 @@
 export default {
     props: {
-        usuarios: Array,
+        eventos: Array,
     },
     setup(props, { emit }) {
-        const senha = Vue.ref('')
-        const papel = Vue.ref('')
+        const lado = Vue.ref('')
+        const area = Vue.ref('')
         const nome = Vue.ref('')
         const id = Vue.ref('')
-        const usuarioEditado = Vue.ref({});
-        const usuarios = Vue.ref(props.usuarios || [])
+        const eventoEditado = Vue.ref({});
+        const eventos = Vue.ref(props.eventos || [])
         function inserir() {
-            if (usuarioEditado.value.id) {
+            if (eventoEditado.value.id) {
                 (async () => {
-                    let id = await alterar(usuarioEditado.value)
+                    let id = await alterarEventos(eventoEditado.value)
                     alert('Registro #' + id + ' alterado!')
                     emit('refresh')
                 })()
             } else {
                 (async () => {
-                    let id = await adicionar({ nome: usuarioEditado.value.nome, senha: usuarioEditado.value.senha, papel_id: usuarioEditado.value.papel_id })
+                    let id = await adicionarEventos({ nome: eventoEditado.value.nome, lado: eventoEditado.value.lado, area: eventoEditado.value.area })
                     alert('Registro #' + id + ' adicionado!')
                     emit('refresh')
                 })()
             }
 
         }
-        function selecionar(usuario) {
-            // emit('selecionado', usuario);
-            this.$router.push('/detalhes/' + usuario.id);
+        function selecionar(evento) {
+            // emit('selecionado', evento);
+            this.$router.push('/detalheseventos/' + evento.id);
         }
-        function editar(usuario) {
-            usuarioEditado.value = usuario;
+        function editar(evento) {
+            eventoEditado.value = evento;
         }
         async function apagar(id) {
             if (confirm('Quer apagar o #' + id + '?')) {
@@ -39,12 +39,12 @@ export default {
             emit('refresh')
         }
         return {
-            usuarios,
+            eventos,
             nome,
-            senha,
-            papel,
+            lado,
+            area,
             id,
-            usuarioEditado,
+            eventoEditado,
             inserir,
             editar,
             selecionar,
@@ -60,21 +60,21 @@ export default {
                     <span class="input-group-text">
                     <i class="bi bi-envelope-fill text-secondary"></i>
                     </span>
-                    <input type="text" name="nome" v-model="usuarioEditado.nome" id="nome" class="form-control" required />
+                    <input type="text" name="nome" v-model="eventoEditado.nome" id="nome" class="form-control" required />
                 </div>
-                <label for="senha" class="form-label">Senha:</label>
+                <label for="lado" class="form-label">lado:</label>
                 <div class="mb-4 input-group">
                     <span class="input-group-text">
                     <i class="bi bi-person-fill text-secondary"></i>
                     </span>
-                    <input type="text" name="senha" v-model="usuarioEditado.senha" id="senha" class="form-control" required />
+                    <input type="text" name="lado" v-model="eventoEditado.lado" id="lado" class="form-control" required />
                 </div>                      
-                <label for="papel" class="form-label">Papel:</label>
+                <label for="area" class="form-label">area:</label>
                 <div class="mb-4 input-group">
                     <span class="input-group-text">
                     <i class="bi bi-person-fill text-secondary"></i>
                     </span>
-                    <input type="number" name="papel" v-model="usuarioEditado.papel_id" id="papel" class="form-control" required />
+                    <input type="number" name="area" v-model="eventoEditado.area" id="area" class="form-control" required />
                 </div>
                 <div class="mb-4 text-center">
                     <button type="submit" class="btn btn-secondary">Enviar</button>
@@ -86,19 +86,20 @@ export default {
                 <tr>
                     <th class="px-3">Id</th>
                     <th class="px-3">Nome</th>
-                    <th class="px-3">Senha</th>
-                    <th class="px-3">Papel</th>
+                    <th class="px-3">Lado</th>
+                    <th class="px-3">Area</th>
                     <th class="px-3">Acoes</th>
+
                 </tr>
                 <tbody>
-                    <tr v-for="usuario of usuarios" :style="{ color: usuario.papel_id > 1 ? 'red' : 'green' }">
-                        <td>{{usuario.id}}</td>
-                        <td>{{usuario.nome}}</td>
-                        <td>{{usuario.senha}}</td>
-                        <td>{{usuario.papel_id}}</td>
-                        <button type="button" class="btn btn-light" @click="selecionar(usuario);">Selecionar</button>
-                        <button type="button" class="btn btn-light" @click="editar(usuario);">Editar</button>
-                        <button type="button" class="btn btn-light" @click="apagar(usuario.id);">Apagar</button>
+                    <tr v-for="evento of eventos" :style="{ color: evento.area > 50 ? 'red' : 'green' }">
+                        <td>{{evento.id}}</td>
+                        <td>{{evento.nome}}</td>
+                        <td>{{evento.lado}}</td>
+                        <td>{{evento.area}}</td>
+                        <button type="button" class="btn btn-light" @click="selecionar(evento);">Selecionar</button>
+                        <button type="button" class="btn btn-light" @click="editar(evento);">Editar</button>
+                        <button type="button" class="btn btn-light" @click="apagar(evento.id);">Apagar</button>
                     </tr>
                 </tbody>
             </table>

@@ -9,6 +9,17 @@ async function listar() {
     return usuarios;
 }
 
+async function listarEventos() {
+    let resposta = await fetch('/eventos', {
+        method: 'get',
+        headers: {
+          'Accept': 'application/json'
+        }, 
+    });
+    let eventos = await resposta.json();
+    return eventos;
+}
+
 async function adicionar(usuario) {
     let dados = new URLSearchParams(usuario);
     let resposta = await fetch('/usuarios/cadastro', {
@@ -30,7 +41,7 @@ async function adicionar(usuario) {
 async function alterar(usuario) {
     let dados = new URLSearchParams(usuario);
     console.log(dados);
-    let resposta = await fetch('/usuarios/cadastro'+usuario.id, {
+    let resposta = await fetch('/usuarios/cadastro/'+usuario.id, {
         method: 'put',
         headers: {
             'Accept': 'application/json'
@@ -48,6 +59,54 @@ async function alterar(usuario) {
 
 async function deletar(id) {
     let resposta = await fetch('/usuarios/' + id, {
+        method: 'delete',
+        headers: {
+            'Accept': 'application/json'
+          }, 
+    });
+    let respostaJson = await resposta.json();
+}
+
+
+async function adicionarEventos(evento) {
+    let dados = new URLSearchParams(evento);
+    let resposta = await fetch('/eventos/cadastro', {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json'
+          },  
+        body: dados
+    });
+
+    if (resposta.status == 200) {
+        return await resposta.json();
+    }
+    else {
+        throw new Error(await resposta.text()); 
+    }
+}
+
+async function alterarEventos(evento) {
+    let dados = new URLSearchParams(evento);
+    console.log(dados);
+    let resposta = await fetch('/eventos/cadastro/'+ evento.id, {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json'
+          },   
+        body: dados
+    });
+    if (resposta.status == 200) {
+        return await resposta.json();
+    }
+    else {
+        throw new Error(await resposta.text()); 
+    }
+}
+
+
+async function deletarEventos(id) {
+    let resposta = await fetch('/eventos/' + id, {
         method: 'delete',
         headers: {
             'Accept': 'application/json'

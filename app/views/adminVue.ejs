@@ -21,6 +21,8 @@
     <nav>
       <router-link to="/" button class="btn btn-dark">Início</router-link>
       <router-link to="/admin/usuarios" button class="btn btn-dark">Admin usuarios</router-link>
+      <router-link to="/admin/eventos" button class="btn btn-dark">Admin eventos</router-link>
+
     </nav>
     <main>
       <router-view @refresh="refresh()"/>
@@ -41,16 +43,26 @@
   import ExibUsuarios from '/_js/ExibUsuarios.js'
   import ListUsuarios from '/_js/ListUsuarios.js'
   import Detalhes from '/_js/Detalhes.js'
+  import CrudEventos from '/_js/CrudEventos.js'
+  import CardEventos from '/_js/CardEventos.js'
+  import ExibEventos from '/_js/ExibEventos.js'
+  import ListEventos from '/_js/ListEventos.js'
+  import DetalhesEventos from '/_js/DetalhesEventos.js'
 
   let usuarios = Vue.ref([]);
   async function refresh(){
     usuarios.value = await listar()
   }
+  let eventos = Vue.ref([]);
+  async function refresh1(){
+    eventos.value = await listarEventos()
+  }
   refresh()
+  refresh1()
   const routes = [
     {
       path: '/', component: ListUsuarios, props: {
-        usuarios
+        usuarios, eventos
       }
     },
     {
@@ -61,6 +73,16 @@
     {
       path: '/detalhes/:id', component: Detalhes, props: {
         usuarios
+      }
+    },
+    {
+      path: '/admin/eventos', component: CrudEventos, props: {
+        eventos
+      }
+    },
+    {
+      path: '/detalheseventos/:id', component: DetalhesEventos, props: {
+        eventos
       }
     },
   ]
@@ -86,7 +108,8 @@
         usuarioExibido,
         seleciona,
         exibe,
-        refresh
+        refresh,
+        refresh1
       }
     }
   }).use(router).mount('#app')

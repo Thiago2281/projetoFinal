@@ -23,10 +23,6 @@ class EventosController {
 
         rotas.get('/admin', passport.authenticate('jwt', { session: false }), async (req, res) => {
             this.listar(req, res);
-            console.log(req.headers);
-            let eventos = await this.listar(req,res);
-            
-            // res.render('adminEventos', {eventos: eventos});       
             res.render('adminVue') 
         });
 
@@ -48,35 +44,13 @@ class EventosController {
             this.apagar(req, res);
         })
 
-        rotas.get('/cadastro', (req, res) => {
-            res.render('cadastroEventos',{evento:{}})
-        })
-
         rotas.post('/cadastro', async (req, res) => {
             this.inserir(req, res);
          
         })
 
-        rotas.get('/edicao', async (req, res) => {
-            this.listar(req, res);
-            let eventos = await this.listar(req,res);
-            res.render('edicaoEventos',{eventos:eventos})
-        })
-
-        rotas.get('/cadastro/:id', async (req, res) => {
-            let id = req.params.id;
-            let evento= await this.getUser(id);
-            res.render('cadastroEventos',{evento:evento})
-        })
-
         rotas.put('/cadastro/:id', (req, res) => {
             this.alterar(req, res);
-        })
-
-        rotas.get('/exclusao', async (req, res) => {
-            this.listar(req, res);
-            let eventos = await this.listar(req,res);
-            res.render('exclusaoEventos',{eventos:eventos})
         })
 
         return rotas;
@@ -108,8 +82,11 @@ class EventosController {
             let evento = await this.getEventoDaRequisicao(req);
             evento.id = await this.eventosDao.inserir(evento);
             this.listar(req, res);
-            let eventos = await this.listar(req,res);
-            res.render('eventos', {eventos: eventos});
+            if (req.headers.accept === 'application/json') {
+                res.json(evento.id);
+            } else {
+                res.render('eventos', {eventos: eventos});
+            } 
         } catch (e) {
             console.log("erro inserir", e)
             res.status(400).json({
