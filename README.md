@@ -3,3 +3,5 @@
 
 # Preparar o ambiente
 Para logar na pagina adm use o perfil "teste", senha "123"
+
+<video src="/_img/projetofinal.mp4"></video>
