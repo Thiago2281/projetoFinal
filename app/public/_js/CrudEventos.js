@@ -34,7 +34,7 @@ export default {
         }
         async function apagar(id) {
             if (confirm('Quer apagar o #' + id + '?')) {
-                console.log('apagado', await deletar(id));
+                console.log('apagado', await deletarEventos(id));
             }
             emit('refresh')
         }

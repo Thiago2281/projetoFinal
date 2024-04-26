@@ -49,16 +49,18 @@
   import ListEventos from '/_js/ListEventos.js'
   import DetalhesEventos from '/_js/DetalhesEventos.js'
 
+  let eventos = Vue.ref([]);
   let usuarios = Vue.ref([]);
   async function refresh(){
     usuarios.value = await listar()
+    eventos.value = await listarEventos()
   }
-  let eventos = Vue.ref([]);
+  
   async function refresh1(){
     eventos.value = await listarEventos()
   }
   refresh()
-  refresh1()
+  // refresh1()
   const routes = [
     {
       path: '/', component: ListUsuarios, props: {
@@ -108,8 +110,8 @@
         usuarioExibido,
         seleciona,
         exibe,
-        refresh,
-        refresh1
+        refresh
+        // refresh1
       }
     }
   }).use(router).mount('#app')

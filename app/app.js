@@ -22,7 +22,6 @@ const pool  = mysql.createPool({
 module.exports = pool;
 
 var cookieExtractor = function(req) {
-  console.log(req.cookies);
   var token = null;
   if (req && req.cookies) token = req.cookies['jwt'];
   return token;
@@ -37,7 +36,6 @@ let opts = {}
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.SEGREDO_JWT;
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    console.log('verificação jwt', jwt_payload);
     return done(null, jwt_payload);
 }));
 

@@ -47,16 +47,13 @@
       let nome = document.querySelector('[name=nome]').value;
       let senha = document.querySelector('[name=senha]').value;
       let divResposta = document.querySelector('#resposta');
-      console.log(nome);
       let dados = new URLSearchParams({nome, senha});
       let resposta = await fetch('login', {
           method: 'post',
           body: dados
       });
       let json = await resposta.json();
-      // console.log(json);
       if (resposta.status == 200) {
-        // sessionStorage.setItem('token', json);
         window.location = '/eventos/admin';
       } else {
           divResposta.innerText = json.mensagem;

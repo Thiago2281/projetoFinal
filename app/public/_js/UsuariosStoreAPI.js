@@ -40,7 +40,6 @@ async function adicionar(usuario) {
 
 async function alterar(usuario) {
     let dados = new URLSearchParams(usuario);
-    console.log(dados);
     let resposta = await fetch('/usuarios/cadastro/'+usuario.id, {
         method: 'put',
         headers: {
@@ -64,7 +63,12 @@ async function deletar(id) {
             'Accept': 'application/json'
           }, 
     });
-    let respostaJson = await resposta.json();
+    if (resposta.status == 200) {
+        return await resposta.json();
+    }
+    else {
+        throw new Error(await resposta.text()); 
+    }
 }
 
 
@@ -88,7 +92,6 @@ async function adicionarEventos(evento) {
 
 async function alterarEventos(evento) {
     let dados = new URLSearchParams(evento);
-    console.log(dados);
     let resposta = await fetch('/eventos/cadastro/'+ evento.id, {
         method: 'put',
         headers: {
@@ -112,5 +115,10 @@ async function deletarEventos(id) {
             'Accept': 'application/json'
           }, 
     });
-    let respostaJson = await resposta.json();
+    if (resposta.status == 200) {
+        return await resposta.json();
+    }
+    else {
+        throw new Error(await resposta.text()); 
+    }
 }

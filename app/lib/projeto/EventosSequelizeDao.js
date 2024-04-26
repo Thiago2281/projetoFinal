@@ -48,7 +48,6 @@ class EventosSequelizeDao {
                 delete obj[key];
             }
         });
-        console.log("alterar", obj);
         Evento.update(obj, { where: { id: id } });
         return obj
     }

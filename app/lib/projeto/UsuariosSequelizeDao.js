@@ -55,7 +55,6 @@ class UsuariosSequelizeDao {
                 delete obj[key];
             }
         });
-        console.log("alterar", obj);
         Usuario.update(obj, { where: { id: id } });
         return obj
     }
