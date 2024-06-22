@@ -54,7 +54,7 @@
       });
       let json = await resposta.json();
       if (resposta.status == 200) {
-        window.location = '/eventos/admin';
+        window.location = '/indexAdmin';
       } else {
           divResposta.innerText = json.mensagem;
       }

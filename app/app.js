@@ -5,9 +5,9 @@ var bodyParser = require('body-parser')
 const mysql = require('mysql');
 const UsuariosSequelizeDao = require('./lib/projeto/UsuariosSequelizeDao');
 const UsuariosController = require('./controllers/UsuariosController');
-const EventosController = require('./controllers/EventosController');
+
 const AuthController = require('./controllers/AuthController');
-const EventosSequelizeDao = require('./lib/projeto/EventosSequelizeDao');
+
 const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
@@ -54,9 +54,6 @@ const sequelize = new Sequelize(
 let usuariosDao = new UsuariosSequelizeDao(sequelize);
 let usuariosController = new UsuariosController(usuariosDao);
 let authController = new AuthController(usuariosDao);
-let eventosDao = new EventosSequelizeDao(sequelize);
-let eventosController = new EventosController(eventosDao);
-
 
 /* identificar dados passados na URL */
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -69,18 +66,13 @@ app.set('view engine', 'ejs');
 
 app.use('/usuarios', passport.authenticate('jwt', { session: false }), usuariosController.getRouter());
 
-app.use('/eventos', eventosController.getRouter());
-
 app.get('/sobre', (req, res) => {
   res.render('sobre')
 })
 
-
 app.get('/perfil', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.json({'usuario': req.user});
 });
-
-
 
 app.get('/login', (req, res) => {
   authController.index(req, res);
@@ -90,6 +82,14 @@ app.post('/login', async (req, res) => {
   let token = await authController.logar(req, res);
   res.json(token)
 });
+
+app.get('/index', (req, res) => {
+  res.render('index')
+})
+
+app.get('/indexAdmin', (req, res) => {
+  res.render('indexAdmin')
+})
 
 /* middleware para lidar com rotas não definidas */
 app.use((req, res) => {

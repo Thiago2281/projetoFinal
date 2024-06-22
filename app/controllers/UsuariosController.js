@@ -12,8 +12,8 @@ class UsuariosController {
         rotas.get('/', async (req, res) => {
             this.listar(req, res);
             let usuarios = await this.listar(req,res);
-            // res.render('usuarios', {usuarios: usuarios});       
-            res.json(usuarios) 
+            res.render('usuarios', {usuarios: usuarios});       
+            // res.json(usuarios) 
         });
 
         rotas.delete('/:id', (req, res) => {
@@ -24,9 +24,14 @@ class UsuariosController {
             res.render('cadastroUsuarios',{usuario:{}})
         })
 
+        rotas.get('/exclusao', async (req, res) => {
+            this.listar(req, res);
+            let usuarios = await this.listar(req,res);
+            res.render('exclusaoUsuarios',{usuarios: usuarios})
+        })
+
         rotas.post('/cadastro', async (req, res) => {
             this.inserir(req, res);
-         
         })
 
         rotas.put('/cadastro/:id', (req, res) => {
@@ -62,6 +67,9 @@ class UsuariosController {
             let usuario = await this.getUsuarioDaRequisicao(req);
             usuario.id = await this.usuariosDao.inserir(usuario);
             this.listar(req, res);
+
+            let usuarios = await this.listar(req,res);
+
             if (req.headers.accept === 'application/json') {
                 res.json(usuario.id);
             } else {
