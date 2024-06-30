@@ -1,6 +1,8 @@
-const Usuario = require('./../lib/projeto/Usuario');
-const express = require('express');
-const { Sequelize, DataTypes, Model } = require('sequelize');
+import Usuario from "../lib/projeto/Usuario.cjs"
+import express from 'express';
+import Sequelize from 'sequelize';
+import DataTypes from 'sequelize';
+import Model from 'sequelize';
 
 class UsuariosController {
     constructor(usuariosDao) {
@@ -118,4 +120,5 @@ class UsuariosController {
 
 }
 
-module.exports = UsuariosController;
+// module.exports = UsuariosController;
+export default UsuariosController;

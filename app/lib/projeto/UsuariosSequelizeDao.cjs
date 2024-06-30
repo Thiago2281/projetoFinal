@@ -1,8 +1,13 @@
-const Usuario = require("./Usuario")
+// import Usuario from "./Usuario.mjs"
+// import bcrypt from 'bcrypt'
+// import Sequelize from 'sequelize';
+// import DataTypes from 'sequelize';
+// import Model from 'sequelize';
+
+const Usuario = require("./Usuario.cjs")
 
 const bcrypt = require('bcrypt')
 const { Sequelize, DataTypes, Model } = require('sequelize');
-
 
 class UsuariosSequelizeDao {
     constructor(sequelize) {
@@ -88,3 +93,4 @@ class UsuariosSequelizeDao {
 }
 
 module.exports = UsuariosSequelizeDao;
+// export default UsuariosSequelizeDao;

@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 class AuthController {
     constructor(usuariosDao) {
@@ -7,7 +7,8 @@ class AuthController {
     }
 
     index(req, res) {
-        res.render('login');
+        const error = req.query.error;
+        res.render('login', { error });
     }
 
     async logar(req, res) {   
@@ -56,4 +57,5 @@ class AuthController {
     }
 }
 
-module.exports = AuthController;
+// module.exports = AuthController;
+export default AuthController;

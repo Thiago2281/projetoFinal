@@ -1,0 +1,7 @@
+opcao,tipo,cnpj,contrato,nf,valorBruto,formatteddataNf,formatteddataAt,formatteddataVenc,descricao,situacao,empenho,subitem,contaEstoque,contaApagar,siorg,mes1,codRecolhimento,codReceita,percentual,cc,ugCC,ano,ug,listaFatura
+"OPTANTE PELO SIMPLES NACIONAL","SERVICO","","Sem contrato","NFe ","","NaN/NaN/NaN","NaN/NaN/NaN","NaN/NaN/NaN","APROPRIACAO DE SERVICO - EXPOSICOES, CONGRESSOS E CONFERENCIAS
+NF DATA/NR: NFe  NaN/NaN/NaN 
+EMPRESA OPTANTE PELO SIMPLES NACIONAL","DSP001","2024NE000","22","3.3.2.3.1.02.00","2.1.3.1.1.04.00","30320","04","","","","F020404S","160046","2024","160046","2024LF000"
+"OPTANTE PELO SIMPLES NACIONAL","MATERIAL PERMANENTE","","Sem contrato","NFe ","","NaN/NaN/NaN","NaN/NaN/NaN","NaN/NaN/NaN","APROPRIACAO DE MATERIAL PERMANENTE - AERONAVES
+NF DATA/NR: NFe  NaN/NaN/NaN
+EMPRESA OPTANTE PELO SIMPLES NACIONAL","DSP201","2024NE000","02","1.2.3.1.1.08.01","2.1.3.1.1.04.00","undefined","undefined","","","","xxx","xxx","xxx","160046","xxx"

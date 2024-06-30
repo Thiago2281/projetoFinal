@@ -1,0 +1,4 @@
+opcao,tipo,cnpj,contrato,nf,valorBruto,formatteddataNf,formatteddataAt,formatteddataVenc,descricao,situacao,empenho,subitem,contaEstoque,percIss,valorIss,mes1,codRecolhimento,codReceita,percentual,cc,ugCC,ano,ug,listaFatura
+"OPTANTE PELO SIMPLES NACIONAL","SERVICO","","Sem contrato","NFe ","","NaN/NaN/NaN","NaN/NaN/NaN","NaN/NaN/NaN","APROPRIACAO DE SERVICO - OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA
+NF DATA/NR: NFe  NaN/NaN/NaN 
+EMPRESA OPTANTE PELO SIMPLES NACIONAL","DSP001","2024NE000","","3.3.2.3.1.02.00","2,000","11,00","04","","","","F020404S","160046","2024","160046","2024LF000"

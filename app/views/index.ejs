@@ -7,18 +7,15 @@
 <body>
     <%- include('../views/nav'); %>   
    
-    <div class="chat-container m-5">
-        <h3 class="text-center">Chatbot</h3>
-        <form action="/send" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="question">Digite sua pergunta:</label>
-                <textarea class="form-control" id="question" name="question" rows="3" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="fileUpload">Upload de arquivos:</label>
+    <div class="chat-container m-5 text-center">
+        <h3 class="text-center">Chatbot NuSanha</h3>
+        <h3 class="text-center lead">Pergunte ao PDF, obtenha respostas instantâneas.</h3>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="form-group pt-4">
+                <label for="fileUpload">Envie aqui o seu pdf:</label>
                 <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button id="button" type="submit" class="btn btn-primary mt-2">Enviar</button>
         </form>
     </div>
 
@@ -27,6 +24,85 @@
 <footer>
     <%- include('../views/footer'); %>
 </footer>
+<script type="module"> 
+    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData();
+        const file = document.getElementById('fileUpload').files[0];
+        formData.append('fileUpload', file);
+        console.log(formData);
+
+        try {
+            const response = await fetch('/send', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.text();
+            alert(result);
+            // Extrair o nome do arquivo do resultado, se necessário
+            const uploadedFileName = result.split(': ')[1]; // Assumindo que o resultado é "File uploaded: nome_do_arquivo.extensao"
+            console.log(uploadedFileName);  
+            const url = `/carregar?filename=${uploadedFileName}`;
+        
+            if (response.ok) {
+                // Send a GET request to the /carregar endpoint
+                const loaderResponse = await fetch(url, {
+                        method: 'GET'
+                });
+                if (loaderResponse.ok) {
+                    // Se a resposta for bem-sucedida, redirecionar
+                    window.location.href = 'indexCompleto';
+                } else {
+                    // Se a resposta falhar, você pode lidar com o erro aqui
+                    console.error('Erro ao carregar', loaderResponse.status);
+                }
+            } else {
+                console.error('Error uploading file:', error);
+                window.location.href = 'index';
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        };
+    });
+</script>
+
+<script>
+    document.getElementById('pergunta').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita o envio padrão do formulário
+
+        // Captura o valor da pergunta
+        var pergunta = document.getElementById('question').value;
+
+        // Define a URL da rota onde você deseja enviar a pergunta (substitua pela sua rota)
+        var url = '/ask';
+
+        // Envia a pergunta via fetch
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ question: pergunta }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao enviar pergunta. Status: ' + response.status);
+            }
+            window.location.href = 'indexCompleto'; // Redirecionar para a página indexCompleto
+            return response.json();
+        })
+        .catch(error => {
+            alert(error.message);
+            // Tratar erros aqui, se necessário
+        });
+    });
+</script>
+
+
+
+
 </body>
 
 </html>
